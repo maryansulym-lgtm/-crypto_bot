@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@crypto Admin</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+    #login { margin-bottom: 1rem; }
+    #login input { padding: 6px; margin-right: 6px; }
+    #queues, #markets, #ledger { margin-top: 1.5rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+    th, td { border: 1px solid #ccc; padding: 4px 6px; font-size: 0.9rem; }
+    th { background-color: #f0f0f0; }
+    button.process { margin-left: 6px; padding: 4px 8px; }
+  </style>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <div id="login">
+    <input id="secret" type="password" placeholder="Enter admin secret" />
+    <button id="loginBtn">Login</button>
+    <span id="loginStatus"></span>
+  </div>
+  <div id="adminContent" style="display:none">
+    <section id="queues">
+      <h2>Pending Withdrawals</h2>
+      <div id="withdrawalsList">Loading...</div>
+    </section>
+    <section id="markets">
+      <h2>Markets</h2>
+      <div id="marketsList">Loading...</div>
+    </section>
+    <section id="ledger">
+      <h2>Ledger Balances</h2>
+      <div id="ledgerList">Loading...</div>
+    </section>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>

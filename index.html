@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeleSwapX</title>
+  <!-- Telegram Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <!-- The application title reflects the current project name. -->
+    <h1>@crypto</h1>
+    <!-- Theme toggle button: switches between dark and light mode -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+  </header>
+
+  <!-- Wallet connection area -->
+  <section id="wallet-section" class="wallet">
+    <div id="wallet-status" class="wallet-status">No wallet connected.</div>
+
+    <!-- Deposit address info; hidden until loaded by script.js -->
+    <p id="deposit-info" class="deposit-info" style="display:none; word-break:break-all; font-size:0.85rem;">
+      Deposit to: <span id="deposit-address"></span>
+      <button id="copy-deposit" class="secondary" style="margin-left:8px; padding:2px 6px; font-size:0.8rem;">Copy</button>
+    </p>
+
+    <div class="wallet-actions">
+      <button id="connect-ton" class="secondary">Connect TON Wallet</button>
+      <button id="connect-evm" class="secondary">Connect EVM Wallet</button>
+    </div>
+    <div id="balance-display" class="balance-display"></div>
+    <div id="withdraw-area" class="withdraw" style="display:none;">
+      <input id="withdraw-amount" type="number" placeholder="Amount TON" />
+      <input id="withdraw-address" type="text" placeholder="Destination TON address" />
+      <button id="withdraw-button" class="primary">Withdraw</button>
+      <!-- Details for withdrawal: fee and remaining limits. Hidden until a wallet is connected. -->
+      <div id="withdraw-details" style="display:none; width:100%; margin-top:4px;">
+        <p id="withdraw-fee-info" style="margin:2px 0; font-size:0.8rem; color: var(--fg-muted);"></p>
+        <p id="withdraw-limit-info" style="margin:2px 0; font-size:0.8rem; color: var(--fg-muted);"></p>
+      </div>
+    </div>
+  </section>
+  <nav class="tabs">
+    <button id="tab-swap" class="tab active">🔄 Swap</button>
+    <!-- Hidden Perp tab (retained for script compatibility) -->
+    <button id="tab-perp" class="tab" style="display:none;">📈 Perp</button>
+    <button id="tab-prediction" class="tab">🔮 Prediction</button>
+  </nav>
+  <main>
+    <section id="section-swap" class="panel active">
+      <h2>🔄 Swap</h2>
+      <div class="swap-card">
+        <!-- Row for sending token -->
+        <div class="swap-row">
+          <span class="row-label">You send</span>
+          <div class="row-content">
+            <select id="swap-from" class="token-select">
+              <option value="ETH">ETH</option>
+              <option value="BTC">BTC</option>
+              <option value="TON">TON</option>
+              <option value="GIFT">GIFT</option>
+              <option value="STICKER">STICKER</option>
+            </select>
+            <input id="swap-amount" type="number" placeholder="0" class="amount-input" />
+          </div>
+        </div>
+        <!-- Arrow separator -->
+        <div class="swap-arrow">⇅</div>
+        <!-- Row for receiving token -->
+        <div class="swap-row">
+          <span class="row-label">You receive</span>
+          <div class="row-content">
+            <select id="swap-to" class="token-select">
+              <option value="TON">TON</option>
+              <option value="ETH">ETH</option>
+              <option value="BTC">BTC</option>
+              <option value="GIFT">GIFT</option>
+              <option value="STICKER">STICKER</option>
+            </select>
+            <!-- Estimated amount; disabled because it is calculated automatically -->
+            <input id="swap-estimate" type="text" disabled placeholder="0" class="amount-input" />
+          </div>
+        </div>
+        <!-- Platform fee note; visible only when receiving TON -->
+        <p id="swap-fee-info" style="display:none; margin: 4px 0 0; font-size: 0.8rem; color: var(--fg-muted);">
+          Platform fee: 0.3% on TON swaps
+        </p>
+      </div>
+      <button id="swap-button" class="primary full-width">Swap</button>
+      <p id="swap-result" class="result"></p>
+    </section>
+
+    <!-- Prediction market panel -->
+    <!-- Hidden Perp panel (retained for script compatibility). The perpetual
+         trading feature has been removed, but the script may still
+         reference certain DOM elements by ID. We include a minimal hidden
+         section to avoid runtime errors. -->
+    <section id="section-perp" class="panel" style="display:none;">
+      <h2>📈 Perp (disabled)</h2>
+      <!-- Dummy elements used by the legacy script. They remain hidden. -->
+      <select id="perp-asset" style="display:none;"></select>
+      <select id="perp-side" style="display:none;"></select>
+      <input id="perp-leverage" type="number" style="display:none;" />
+      <input id="perp-amount" type="number" style="display:none;" />
+      <button id="perp-open-button" style="display:none;"></button>
+      <ul id="positions-list" style="display:none;"></ul>
+    </section>
+
+    <section id="section-prediction" class="panel">
+      <h2>🔮 Prediction Market</h2>
+      <div class="form-row">
+        <label for="pred-asset">Asset</label>
+        <select id="pred-asset">
+          <option value="GIFTS">Gifts</option>
+          <option value="STICKERS">Stickers</option>
+          <option value="TON">Toncoin</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="pred-direction">Direction</label>
+        <select id="pred-direction">
+          <option value="above">Above</option>
+          <option value="below">Below</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="pred-expiry">Duration (minutes)</label>
+        <input id="pred-expiry" type="number" min="1" value="60" />
+      </div>
+      <div class="form-row">
+        <label for="pred-amount">Stake (TON)</label>
+        <input id="pred-amount" type="number" placeholder="0" />
+      </div>
+      <div class="form-row">
+        <button id="pred-refresh" class="secondary">Refresh Cap</button>
+        <span id="pred-cap-value">Market cap: --</span>
+      </div>
+      <button id="pred-open-button" class="primary">Open Prediction</button>
+      <h3>Open & Closed Predictions</h3>
+      <ul id="predictions-list" class="positions"></ul>
+    </section>
+  </main>
+
+  <!-- Chart.js library for rendering price and futures charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Application logic -->
+  <script src="script.js"></script>
+</body>
+</html>

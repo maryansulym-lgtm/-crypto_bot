@@ -1,0 +1,342 @@
+/* Basic reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Colour variables for light and dark themes */
+:root {
+  --bg-color: #f5f7fa;
+  --card-color: #ffffff;
+  --tab-bg: #e6f0f6;
+  --tab-active-bg: #ffffff;
+  --tab-hover-bg: #d4e4ed;
+  --text-color: #1e2022;
+  --accent-color: #229ed9;
+  --input-bg: #ffffff;
+  --input-border: #ccd7e0;
+  --button-bg: #229ed9;
+  --button-hover-bg: #1b7ca5;
+  --result-color: #1b7ca5;
+  --position-bg: #ffffff;
+  --position-border: #ccd7e0;
+  --delete-bg: #e74c3c;
+  --delete-hover-bg: #c0392b;
+}
+
+/* Dark theme overrides */
+body.dark {
+  --bg-color: #0e1621;
+  --card-color: #1f2a36;
+  --tab-bg: #152233;
+  --tab-active-bg: #1f2a36;
+  --tab-hover-bg: #213249;
+  --text-color: #e6eaf0;
+  --accent-color: #229ed9;
+  --input-bg: #273646;
+  --input-border: #35475f;
+  --button-bg: #229ed9;
+  --button-hover-bg: #1b7ca5;
+  --result-color: #6bb3d6;
+  --position-bg: #273646;
+  --position-border: #35475f;
+  --delete-bg: #e74c3c;
+  --delete-hover-bg: #c0392b;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+/* Wallet section styling */
+.wallet {
+  padding: 16px;
+  background-color: var(--card-color);
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  margin: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.wallet-status {
+  font-size: 16px;
+  font-weight: 500;
+}
+.wallet-actions {
+  display: flex;
+  gap: 12px;
+}
+.balance-display {
+  font-size: 16px;
+  font-weight: 500;
+}
+.withdraw {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.withdraw input {
+  padding: 12px 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.tabs {
+  display: flex;
+  background-color: var(--tab-bg);
+  border-bottom: 1px solid var(--input-border);
+}
+
+.tab {
+  flex: 1;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  color: var(--text-color);
+}
+
+.tab:hover {
+  background-color: var(--tab-hover-bg);
+}
+
+.tab.active {
+  background-color: var(--tab-active-bg);
+  font-weight: bold;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+main {
+  padding: 16px;
+}
+
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+/* Swap card styling */
+/* Swap card styling: increased padding, rounded corners and subtle shadow for a
+   more spacious, Telegram‑like feel */
+.swap-card {
+  background-color: var(--card-color);
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Each row in the swap card has extra spacing to improve readability */
+.swap-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Labels are slightly larger for better legibility */
+.row-label {
+  flex: 1;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Increase horizontal space between the select/input elements */
+.row-content {
+  flex: 2;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Token selects use larger padding and border radius to feel airy */
+.token-select {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+/* Amount inputs mirror the styling of selects for consistency */
+.amount-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.amount-input:disabled {
+  opacity: 0.6;
+}
+
+.swap-arrow {
+  text-align: center;
+  font-size: 24px;
+  color: var(--accent-color);
+}
+
+/* Buttons: increased size and radius to match Telegram’s spacious design */
+.primary {
+  padding: 14px 20px;
+  background-color: var(--button-bg);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Secondary buttons: used for actions like refreshing market cap. Styled
+   with inverted colours and a subtle border to differentiate from primary
+   actions. */
+.secondary {
+  padding: 12px 16px;
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  display: inline-block;
+}
+.secondary:hover {
+  background-color: var(--tab-hover-bg);
+  color: var(--text-color);
+}
+
+.primary:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.primary.full-width {
+  width: 100%;
+}
+
+/* Form rows for Perp page */
+.form-row {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Increase padding, border radius and font size for Perp inputs and selects */
+.form-row input,
+.form-row select {
+  padding: 12px 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+/* Result text */
+.result {
+  margin-top: 8px;
+  color: var(--result-color);
+}
+
+/* Positions list */
+.positions {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.positions li {
+  background-color: var(--position-bg);
+  border: 1px solid var(--position-border);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+
+.positions li .meta {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style the close button on each position for consistency */
+.positions li button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--delete-bg);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+.positions li button:hover {
+  background-color: var(--delete-hover-bg);
+}
+
+.positions button {
+  padding: 4px 8px;
+  background-color: var(--delete-bg);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.positions button:hover {
+  background-color: var(--delete-hover-bg);
+}
